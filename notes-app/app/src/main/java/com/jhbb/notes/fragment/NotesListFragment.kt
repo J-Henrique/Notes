@@ -1,4 +1,4 @@
-package com.jhbb.notes.feature.list
+package com.jhbb.notes.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.jhbb.notes.R
+import com.jhbb.notes.viewmodel.NotesViewModel
+import kotlinx.android.synthetic.main.fragment_notes_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class NotesListFragment : Fragment() {
@@ -23,6 +25,6 @@ class NotesListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.notes.observe(viewLifecycleOwner, Observer { println(it) })
+        viewModel.notes.observe(viewLifecycleOwner, Observer { tvteste.text = it[0].title })
     }
 }

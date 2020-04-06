@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.list.MainActivity">
+    tools:context=".activity.MainActivity">
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.jhbb.notes.feature.list.NotesListFragment"
+        android:name="com.jhbb.notes.fragment.NotesListFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

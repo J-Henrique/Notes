@@ -1,4 +1,4 @@
-package com.jhbb.notes.core.extension
+package com.jhbb.notes.extension
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

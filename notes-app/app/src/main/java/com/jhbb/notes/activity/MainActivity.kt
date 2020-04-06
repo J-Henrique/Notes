@@ -1,8 +1,9 @@
-package com.jhbb.notes.feature.list
+package com.jhbb.notes.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.notes.R
+import com.jhbb.notes.viewmodel.NotesViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
