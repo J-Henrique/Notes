@@ -1,4 +1,4 @@
-package com.jhbb.notes.application
+package com.jhbb.notes.core.application
 
 import android.app.Application
 import com.jhbb.notes.network.networkModule

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Notes</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Messages -->
+    <string name="failure_message_generic">An error occurred</string>
+    <string name="failure_no_connection">No network connection</string>
+
+    <!-- Action -->
+    <string name="action_retry">Retry</string>
 </resources>
