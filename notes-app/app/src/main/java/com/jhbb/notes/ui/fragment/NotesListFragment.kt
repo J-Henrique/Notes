@@ -34,7 +34,6 @@ class NotesListFragment : BaseFragment() {
     }
 
     private fun errorState(fallback: () -> Unit) {
-//        showMessageWithAction(R.string.failure_no_connection, R.string.action_retry, fallback)
         showDialog(R.string.failure_no_connection, R.string.action_retry, fallback)
     }
 }
