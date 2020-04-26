@@ -1,10 +1,11 @@
 <resources>
-    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light">
+    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
 
         <item name="actionMenuTextColor">@color/primaryTextColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="iconTint">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/iconColor</item>
     </style>
 </resources>

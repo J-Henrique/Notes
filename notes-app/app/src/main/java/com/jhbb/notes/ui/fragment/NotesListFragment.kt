@@ -5,7 +5,11 @@ import androidx.lifecycle.Observer
 import com.jhbb.notes.R
 import com.jhbb.notes.core.BaseFragment
 import com.jhbb.notes.core.Status
+import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.ui.adapter.NotesListAdapter
+import com.jhbb.notes.ui.vo.NoteViewObject
 import com.jhbb.notes.viewmodel.NotesViewModel
+import kotlinx.android.synthetic.main.fragment_notes_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class NotesListFragment : BaseFragment() {
@@ -23,14 +27,21 @@ class NotesListFragment : BaseFragment() {
         viewModel.getNotes().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> showLoadingBar()
-                Status.SUCCESS -> dataState()
+                Status.SUCCESS -> dataState(it.data)
                 Status.ERROR -> errorState(::loadNotes)
             }
         })
     }
 
-    private fun dataState() {
+    private fun dataState(notes: List<NotesModel>?) {
         hideLoadingBar()
+
+        val notesList = mutableListOf<NoteViewObject>()
+        notes?.forEach {
+            notesList.add(NoteViewObject.new(it))
+        }
+
+        notes_list.adapter = NotesListAdapter(notesList)
     }
 
     private fun errorState(fallback: () -> Unit) {
