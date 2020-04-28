@@ -5,6 +5,7 @@
     <string name="search_menu_item">Search</string>
 
     <!-- Messages -->
+    <string name="error_title">Error</string>
     <string name="failure_message_generic">An error occurred</string>
     <string name="failure_no_connection">No network connection</string>
 

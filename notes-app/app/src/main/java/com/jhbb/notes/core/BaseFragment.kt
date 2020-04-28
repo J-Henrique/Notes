@@ -47,9 +47,12 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    fun showDialog(@StringRes message: Int, @StringRes action: Int, function: () -> Unit) {
+    fun showDialog(@StringRes title: Int,
+                   @StringRes message: Int,
+                   @StringRes action: Int,
+                   function: () -> Unit) {
         MaterialAlertDialogBuilder(this.context)
-            .setTitle(message)
+            .setTitle(title)
             .setMessage(message)
             .setPositiveButton(action) { _, _ -> function.invoke() }
             .show()
