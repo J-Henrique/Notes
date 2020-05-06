@@ -24,7 +24,7 @@ class NotesListFragment : BaseFragment() {
     }
 
     private fun loadNotes() {
-        viewModel.getNotes().observe(viewLifecycleOwner, Observer {
+        viewModel.notes.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> showLoadingBar()
                 Status.SUCCESS -> dataState(it.data)
