@@ -1,11 +1,11 @@
-package com.jhbb.notes.ui.adapter
+package com.jhbb.notes.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jhbb.notes.R
-import com.jhbb.notes.ui.vo.NoteViewObject
+import com.jhbb.notes.presentation.vo.NoteViewObject
 import kotlinx.android.synthetic.main.item_note.view.*
 
 class NotesListAdapter(private val notesList: List<NoteViewObject>) : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
