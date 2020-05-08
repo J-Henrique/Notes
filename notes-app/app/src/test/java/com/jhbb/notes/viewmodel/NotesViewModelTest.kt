@@ -22,15 +22,12 @@ class NotesViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    private val fakeNotesRepository =
-        FakeNotesRepository()
+    private val fakeNotesRepository = FakeNotesRepository()
     private lateinit var viewModel: NotesViewModel
 
     @Before
     fun setup() {
-        viewModel = NotesViewModel(
-            fakeNotesRepository
-        )
+        viewModel = NotesViewModel(fakeNotesRepository)
     }
 
     @Test
