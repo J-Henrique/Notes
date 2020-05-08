@@ -1,4 +1,4 @@
-package com.jhbb.notes.ui.fragment
+package com.jhbb.notes.presentation.fragment
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -6,9 +6,9 @@ import com.jhbb.notes.R
 import com.jhbb.notes.core.BaseFragment
 import com.jhbb.notes.core.Status
 import com.jhbb.notes.model.NotesModel
-import com.jhbb.notes.ui.adapter.NotesListAdapter
-import com.jhbb.notes.ui.vo.NoteViewObject
-import com.jhbb.notes.viewmodel.NotesViewModel
+import com.jhbb.notes.presentation.adapter.NotesListAdapter
+import com.jhbb.notes.presentation.viewmodel.NotesViewModel
+import com.jhbb.notes.presentation.vo.NoteViewObject
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 

@@ -1,4 +1,4 @@
-package com.jhbb.notes.network
+package com.jhbb.notes.api
 
 import com.jhbb.notes.model.NotesModel
 import retrofit2.http.GET

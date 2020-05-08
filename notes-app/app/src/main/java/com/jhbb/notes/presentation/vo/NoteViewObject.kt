@@ -1,4 +1,4 @@
-package com.jhbb.notes.ui.vo
+package com.jhbb.notes.presentation.vo
 
 import com.jhbb.notes.model.NotesModel
 
