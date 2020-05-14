@@ -8,7 +8,7 @@ class NoteViewObject(
 
     companion object {
         fun new(note: NotesModel): NoteViewObject {
-            return NoteViewObject(note.title, true)
+            return NoteViewObject(note.title, note.isCompleted)
         }
     }
 }

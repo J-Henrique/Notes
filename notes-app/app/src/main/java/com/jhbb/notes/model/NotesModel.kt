@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class NotesModel(
     @SerializedName("id") val id: Int,
-    @SerializedName("title") val title: String
+    @SerializedName("title") val title: String,
+    @SerializedName("isCompleted") val isCompleted: Boolean
 )

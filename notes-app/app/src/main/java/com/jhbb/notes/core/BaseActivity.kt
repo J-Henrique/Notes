@@ -4,7 +4,11 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.notes.R
+import com.jhbb.notes.api.apiModule
+import com.jhbb.notes.presentation.viewmodel.viewModelModule
+import com.jhbb.notes.repository.appModule
 import kotlinx.android.synthetic.main.activity_base.*
+import org.koin.core.context.loadKoinModules
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -13,10 +17,16 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base)
         setSupportActionBar(toolbar)
 
+        loadKoinModules()
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentContainer, fragment())
             .commit()
+    }
+
+    private fun loadKoinModules() {
+        loadKoinModules(listOf(appModule, viewModelModule, apiModule))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
