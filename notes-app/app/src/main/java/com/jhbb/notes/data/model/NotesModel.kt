@@ -1,4 +1,4 @@
-package com.jhbb.notes.model
+package com.jhbb.notes.data.model
 
 import com.google.gson.annotations.SerializedName
 

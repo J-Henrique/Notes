@@ -1,8 +1,8 @@
-package com.jhbb.notes.repository
+package com.jhbb.notes.data.repository
 
 import com.jhbb.notes.core.Resource
 import com.jhbb.notes.core.Status
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.model.NotesModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.withContext

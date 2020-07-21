@@ -8,9 +8,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jhbb.notes.R
 import com.jhbb.notes.core.Resource
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.model.NotesModel
+import com.jhbb.notes.data.repository.NotesRepository
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import com.jhbb.notes.repository.NotesRepository
 import com.jhbb.notes.utils.atPosition
 import io.mockk.coEvery
 import io.mockk.mockk

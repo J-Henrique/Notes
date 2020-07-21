@@ -1,8 +1,8 @@
-package com.jhbb.notes.repository
+package com.jhbb.notes.data.repository
 
-import com.jhbb.notes.api.NotesApi
 import com.jhbb.notes.core.Resource
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.api.NotesApi
+import com.jhbb.notes.data.model.NotesModel
 import com.jhbb.notes.presentation.vo.NoteViewObject
 
 class NotesRepositoryImpl(private val notesApi: NotesApi) : NotesRepository {

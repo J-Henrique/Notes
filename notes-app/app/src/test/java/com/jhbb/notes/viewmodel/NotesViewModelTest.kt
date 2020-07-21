@@ -2,8 +2,8 @@ package com.jhbb.notes.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.jhbb.notes.core.Status
+import com.jhbb.notes.data.repository.FakeNotesRepository
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import com.jhbb.notes.repository.FakeNotesRepository
 import com.jhbb.notes.util.MainCoroutineRule
 import com.jhbb.notes.util.observeForTesting
 import kotlinx.coroutines.ExperimentalCoroutinesApi

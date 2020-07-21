@@ -1,4 +1,4 @@
-package com.jhbb.notes.repository
+package com.jhbb.notes.data.repository
 
 import org.koin.dsl.module
 

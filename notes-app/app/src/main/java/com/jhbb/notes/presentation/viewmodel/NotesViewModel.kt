@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jhbb.notes.core.Resource
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.model.NotesModel
+import com.jhbb.notes.data.repository.NotesRepository
 import com.jhbb.notes.presentation.vo.NoteViewObject
-import com.jhbb.notes.repository.NotesRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

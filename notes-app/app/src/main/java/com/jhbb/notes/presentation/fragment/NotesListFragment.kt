@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import com.jhbb.notes.R
 import com.jhbb.notes.core.BaseFragment
 import com.jhbb.notes.core.Status
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.model.NotesModel
 import com.jhbb.notes.presentation.adapter.NotesListAdapter
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
 import com.jhbb.notes.presentation.vo.NoteViewObject

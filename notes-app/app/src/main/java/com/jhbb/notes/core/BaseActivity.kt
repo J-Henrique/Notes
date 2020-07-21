@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.notes.R
-import com.jhbb.notes.api.apiModule
+import com.jhbb.notes.data.api.apiModule
+import com.jhbb.notes.data.repository.appModule
 import com.jhbb.notes.presentation.viewmodel.viewModelModule
-import com.jhbb.notes.repository.appModule
 import kotlinx.android.synthetic.main.activity_base.*
 import org.koin.core.context.loadKoinModules
 

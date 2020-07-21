@@ -1,6 +1,6 @@
-package com.jhbb.notes.api
+package com.jhbb.notes.data.api
 
-import com.jhbb.notes.model.NotesListModel
+import com.jhbb.notes.data.model.NotesListModel
 import retrofit2.http.GET
 
 interface NotesApi {

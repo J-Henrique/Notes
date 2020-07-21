@@ -1,6 +1,6 @@
 package com.jhbb.notes.presentation.vo
 
-import com.jhbb.notes.model.NotesModel
+import com.jhbb.notes.data.model.NotesModel
 
 class NoteViewObject(
     val id: Int,
