@@ -8,12 +8,20 @@ import com.jhbb.notes.R
 import com.jhbb.notes.presentation.vo.NoteViewObject
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NotesListAdapter(private val notesList: List<NoteViewObject>) : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
+class NotesListAdapter(private val notesList: List<NoteViewObject>,
+                       private val checkEvent: (NoteViewObject) -> Unit)
+    : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
-        return NoteViewHolder(view)
+
+        val viewHolder = NoteViewHolder(view)
+        viewHolder.itemView.completed.setOnClickListener {
+            checkEvent.invoke(notesList[viewHolder.adapterPosition])
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {

@@ -18,19 +18,36 @@ class NotesListFragment : BaseFragment() {
 
     override fun layoutId() = R.layout.fragment_notes_list
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        loadNotes()
+    private val checkEvent: (NoteViewObject) -> Unit = { noteClicked ->
+        viewModel.updateNoteState(noteClicked)
     }
 
-    private fun loadNotes() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        bindNotesObserver()
+        bindButtonEvent()
+
+        refreshAdapter()
+    }
+
+    private fun bindButtonEvent() {
+        add_button.setOnClickListener {
+            viewModel.addNote()
+        }
+    }
+
+    private fun bindNotesObserver() {
         viewModel.notes.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> showLoadingBar()
                 Status.SUCCESS -> dataState(it.data)
-                Status.ERROR -> errorState(::loadNotes)
+                Status.ERROR -> errorState(::refreshAdapter)
             }
         })
+    }
+
+    private fun refreshAdapter() {
+        viewModel.refreshNotes()
     }
 
     private fun dataState(notes: List<NotesModel>?) {
@@ -41,7 +58,7 @@ class NotesListFragment : BaseFragment() {
             notesList.add(NoteViewObject.new(it))
         }
 
-        notes_list.adapter = NotesListAdapter(notesList)
+        notes_list.adapter = NotesListAdapter(notesList, checkEvent)
     }
 
     private fun errorState(fallback: () -> Unit) {

@@ -1,21 +1,27 @@
 package com.jhbb.notes.repository
 
-import com.google.firebase.firestore.FirebaseFirestore
+import com.jhbb.notes.api.NotesApi
 import com.jhbb.notes.core.Resource
 import com.jhbb.notes.model.NotesModel
-import kotlinx.coroutines.tasks.await
+import com.jhbb.notes.presentation.vo.NoteViewObject
 
-class NotesRepositoryImpl(private val fireStore: FirebaseFirestore) : NotesRepository {
+class NotesRepositoryImpl(private val notesApi: NotesApi) : NotesRepository {
 
     override suspend fun getNotes(): Resource<List<NotesModel>> {
         return try {
-            val documents = fireStore.collection("notes")
-                .get()
-                .await()
+            val response = notesApi.getNotes()
 
-            Resource.success(documents.toObjects(NotesModel::class.java))
+            Resource.success(response.notes)
         } catch (e: Exception) {
             Resource.error(e)
         }
+    }
+
+    override suspend fun checkNote(selectedNote: NoteViewObject) {
+
+    }
+
+    override suspend fun addNote() {
+
     }
 }
