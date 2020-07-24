@@ -1,7 +1,10 @@
 package com.jhbb.notes.presentation.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jhbb.notes.R
 import com.jhbb.notes.core.BaseFragment
 import com.jhbb.notes.core.Status
@@ -15,28 +18,30 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class NotesListFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<NotesViewModel>()
+    private lateinit var notesAdapter: NotesListAdapter
 
     override fun layoutId() = R.layout.fragment_notes_list
 
-    private val checkEvent: (NoteViewObject) -> Unit = { noteClicked ->
+    private val _checkEvent: (NoteViewObject) -> Unit = { noteClicked ->
         viewModel.updateNoteState(noteClicked)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bindNotesObserver()
-        bindButtonEvent()
+        setupUi()
+        setupNotesObserver()
+        setupButtonEvent()
 
         refreshAdapter()
     }
 
-    private fun bindButtonEvent() {
+    private fun setupButtonEvent() {
         add_button.setOnClickListener {
             viewModel.addNote()
         }
     }
 
-    private fun bindNotesObserver() {
+    private fun setupNotesObserver() {
         viewModel.notes.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> showLoadingBar()
@@ -53,12 +58,23 @@ class NotesListFragment : BaseFragment() {
     private fun dataState(notes: List<NotesModel>?) {
         hideLoadingBar()
 
-        val notesList = mutableListOf<NoteViewObject>()
-        notes?.forEach {
-            notesList.add(NoteViewObject.new(it))
+        val notesList = mutableListOf<NoteViewObject>().apply {
+            notes?.forEach{ this.add(NoteViewObject.new(it)) }
         }
 
-        notes_list.adapter = NotesListAdapter(notesList, checkEvent)
+        notesAdapter.refreshList(notesList)
+        add_button.visibility = View.VISIBLE
+    }
+
+    private fun setupUi() {
+        notesAdapter = NotesListAdapter(checkEvent = _checkEvent)
+
+        notes_list.apply {
+            adapter = notesAdapter
+            addItemDecoration(DividerItemDecoration(
+                notes_list.context,
+                (notes_list.layoutManager as LinearLayoutManager).orientation))
+        }
     }
 
     private fun errorState(fallback: () -> Unit) {
@@ -66,5 +82,7 @@ class NotesListFragment : BaseFragment() {
             R.string.failure_no_connection,
             R.string.action_retry,
             fallback)
+
+        add_button.visibility = View.GONE
     }
 }

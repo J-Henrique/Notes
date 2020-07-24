@@ -25,8 +25,12 @@ class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel()
     }
 
     fun updateNoteState(noteSelected: NoteViewObject) {
+        _notes.value = Resource.loading()
+
         viewModelScope.launch {
             notesRepository.checkNote(noteSelected)
+
+            _notes.value = notesRepository.getNotes()
         }
     }
 

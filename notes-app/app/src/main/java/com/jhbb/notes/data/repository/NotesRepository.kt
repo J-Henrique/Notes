@@ -7,7 +7,7 @@ import com.jhbb.notes.presentation.vo.NoteViewObject
 interface NotesRepository {
     suspend fun getNotes(): Resource<List<NotesModel>>
 
-    suspend fun checkNote(selectedNote: NoteViewObject)
+    suspend fun checkNote(selectedNote: NoteViewObject): Resource<NotesModel>
 
     suspend fun addNote()
 }

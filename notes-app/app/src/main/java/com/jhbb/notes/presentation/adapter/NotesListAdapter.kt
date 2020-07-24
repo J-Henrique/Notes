@@ -8,7 +8,7 @@ import com.jhbb.notes.R
 import com.jhbb.notes.presentation.vo.NoteViewObject
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NotesListAdapter(private val notesList: List<NoteViewObject>,
+class NotesListAdapter(private val notesList: MutableList<NoteViewObject> = mutableListOf(),
                        private val checkEvent: (NoteViewObject) -> Unit)
     : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
 
@@ -18,7 +18,7 @@ class NotesListAdapter(private val notesList: List<NoteViewObject>,
 
         val viewHolder = NoteViewHolder(view)
         viewHolder.itemView.completed.setOnClickListener {
-            checkEvent.invoke(notesList[viewHolder.adapterPosition])
+            checkEvent(notesList[viewHolder.adapterPosition])
         }
 
         return viewHolder
@@ -29,6 +29,12 @@ class NotesListAdapter(private val notesList: List<NoteViewObject>,
     }
 
     override fun getItemCount() = notesList.size
+
+    fun refreshList(notes: List<NoteViewObject>) {
+        notesList.clear()
+        notesList.addAll(notes)
+        notifyDataSetChanged()
+    }
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
