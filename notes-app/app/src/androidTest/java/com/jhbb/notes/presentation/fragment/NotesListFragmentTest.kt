@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.jhbb.notes.R
 import com.jhbb.notes.core.Resource
-import com.jhbb.notes.data.model.NotesModel
+import com.jhbb.notes.data.dto.NoteDTO
 import com.jhbb.notes.data.repository.NotesRepository
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
 import com.jhbb.notes.utils.atPosition
@@ -29,11 +29,11 @@ class NotesListFragmentTest {
 
     private var mockRepository = mockk<NotesRepository>()
     private val mockNotes = listOf(
-        NotesModel(1, "Note 1", true),
-        NotesModel(2, "Note 2", true),
-        NotesModel(3, "Note 3", false),
-        NotesModel(4, "Note 4", false),
-        NotesModel(5, "Note 5", true))
+        NoteDTO(1, "Note 1", true),
+        NoteDTO(2, "Note 2", true),
+        NoteDTO(3, "Note 3", false),
+        NoteDTO(4, "Note 4", false),
+        NoteDTO(5, "Note 5", true))
 
     @Before
     fun setup() {

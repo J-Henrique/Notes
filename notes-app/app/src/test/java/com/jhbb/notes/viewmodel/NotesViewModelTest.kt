@@ -34,12 +34,12 @@ class NotesViewModelTest {
     fun `Should propagate LOADING and SUCCESS states when notes are accessed`() {
         fakeNotesRepository.testDispatcher.pauseDispatcher()
 
-        viewModel.notes.observeForTesting {
-            assertThat(viewModel.notes.value!!.status, `is`(Status.LOADING))
+        viewModel.note.observeForTesting {
+            assertThat(viewModel.note.value!!.status, `is`(Status.LOADING))
 
             fakeNotesRepository.testDispatcher.resumeDispatcher()
 
-            assertThat(viewModel.notes.value!!.status, `is`(Status.SUCCESS))
+            assertThat(viewModel.note.value!!.status, `is`(Status.SUCCESS))
         }
     }
 
@@ -47,10 +47,10 @@ class NotesViewModelTest {
     fun `Should return a list of 4 notes`() {
         fakeNotesRepository.testDispatcher.pauseDispatcher()
 
-        viewModel.notes.observeForTesting {
+        viewModel.note.observeForTesting {
             fakeNotesRepository.testDispatcher.resumeDispatcher()
 
-            assertThat(viewModel.notes.value!!.data!!.size, `is`(4))
+            assertThat(viewModel.note.value!!.data!!.size, `is`(4))
         }
     }
 }

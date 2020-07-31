@@ -2,7 +2,7 @@ package com.jhbb.notes.data.repository
 
 import com.jhbb.notes.core.Resource
 import com.jhbb.notes.core.Status
-import com.jhbb.notes.data.model.NotesModel
+import com.jhbb.notes.data.dto.NoteDTO
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -10,26 +10,26 @@ import kotlinx.coroutines.withContext
 @ExperimentalCoroutinesApi
 class FakeNotesRepository : NotesRepository {
 
-    private val mockNotes = mutableListOf<NotesModel>().also {
-        it.add(NotesModel(1, "Note 1"))
-        it.add(NotesModel(2, "Note 2"))
-        it.add(NotesModel(3, "Note 3"))
-        it.add(NotesModel(4, "Note 4"))
+    private val mockNotes = mutableListOf<NoteDTO>().also {
+        it.add(NoteDTO(1, "Note 1"))
+        it.add(NoteDTO(2, "Note 2"))
+        it.add(NoteDTO(3, "Note 3"))
+        it.add(NoteDTO(4, "Note 4"))
     }
 
     val testDispatcher = TestCoroutineDispatcher()
 
-    override suspend fun getNotes(): Resource<List<NotesModel>> {
-        var notes: Resource<List<NotesModel>> =
+    override suspend fun getNotes(): Resource<List<NoteDTO>> {
+        var note: Resource<List<NoteDTO>> =
             Resource(Status.ERROR)
 
         withContext(testDispatcher) {
-            notes = Resource(
+            note = Resource(
                 Status.SUCCESS,
                 mockNotes
             )
         }
 
-        return notes
+        return note
     }
 }

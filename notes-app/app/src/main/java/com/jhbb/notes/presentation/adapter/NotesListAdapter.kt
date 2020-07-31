@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jhbb.notes.R
-import com.jhbb.notes.presentation.vo.NoteViewObject
+import com.jhbb.notes.presentation.vo.NoteVO
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NotesListAdapter(private val notesList: MutableList<NoteViewObject> = mutableListOf(),
-                       private val checkEvent: (NoteViewObject) -> Unit)
+class NotesListAdapter(private val notesList: MutableList<NoteVO> = mutableListOf(),
+                       private val checkEvent: (NoteVO) -> Unit)
     : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -30,7 +30,7 @@ class NotesListAdapter(private val notesList: MutableList<NoteViewObject> = muta
 
     override fun getItemCount() = notesList.size
 
-    fun refreshList(notes: List<NoteViewObject>) {
+    fun refreshList(notes: List<NoteVO>) {
         notesList.clear()
         notesList.addAll(notes)
         notifyDataSetChanged()
@@ -38,7 +38,7 @@ class NotesListAdapter(private val notesList: MutableList<NoteViewObject> = muta
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindView(note: NoteViewObject) {
+        fun bindView(note: NoteVO) {
             with(itemView) {
                 this.description.text = note.description
                 this.completed.isChecked = note.completed

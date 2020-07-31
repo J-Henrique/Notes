@@ -5,16 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jhbb.notes.core.Resource
-import com.jhbb.notes.data.model.NotesModel
 import com.jhbb.notes.data.repository.NotesRepository
-import com.jhbb.notes.presentation.vo.NoteViewObject
+import com.jhbb.notes.presentation.vo.NoteVO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel() {
 
-    private val _notes = MutableLiveData<Resource<List<NotesModel>>>()
-    val notes: LiveData<Resource<List<NotesModel>>> = _notes
+    private val _notes = MutableLiveData<Resource<List<NoteVO>>>()
+    val note: LiveData<Resource<List<NoteVO>>> = _notes
 
     fun refreshNotes() {
         _notes.value = Resource.loading()
@@ -24,11 +23,10 @@ class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel()
         }
     }
 
-    fun updateNoteState(noteSelected: NoteViewObject) {
-        _notes.value = Resource.loading()
-
+    fun updateNoteState(noteSelected: NoteVO) {
         viewModelScope.launch {
-            notesRepository.checkNote(noteSelected)
+            val up = notesRepository.updateNote(noteSelected)
+            val no = notesRepository.getNotes()
 
             _notes.value = notesRepository.getNotes()
         }

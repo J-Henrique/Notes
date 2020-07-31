@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jhbb.notes.R
 import com.jhbb.notes.core.BaseFragment
 import com.jhbb.notes.core.Status
-import com.jhbb.notes.data.model.NotesModel
 import com.jhbb.notes.presentation.adapter.NotesListAdapter
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import com.jhbb.notes.presentation.vo.NoteViewObject
+import com.jhbb.notes.presentation.vo.NoteVO
 import kotlinx.android.synthetic.main.fragment_notes_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
@@ -22,7 +21,7 @@ class NotesListFragment : BaseFragment() {
 
     override fun layoutId() = R.layout.fragment_notes_list
 
-    private val _checkEvent: (NoteViewObject) -> Unit = { noteClicked ->
+    private val _checkEvent: (NoteVO) -> Unit = { noteClicked ->
         viewModel.updateNoteState(noteClicked)
     }
 
@@ -42,10 +41,10 @@ class NotesListFragment : BaseFragment() {
     }
 
     private fun setupNotesObserver() {
-        viewModel.notes.observe(viewLifecycleOwner, Observer {
+        viewModel.note.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> showLoadingBar()
-                Status.SUCCESS -> dataState(it.data)
+                Status.SUCCESS -> dataState(it.data ?: listOf())
                 Status.ERROR -> errorState(::refreshAdapter)
             }
         })
@@ -55,14 +54,10 @@ class NotesListFragment : BaseFragment() {
         viewModel.refreshNotes()
     }
 
-    private fun dataState(notes: List<NotesModel>?) {
+    private fun dataState(notes: List<NoteVO>) {
         hideLoadingBar()
 
-        val notesList = mutableListOf<NoteViewObject>().apply {
-            notes?.forEach{ this.add(NoteViewObject.new(it)) }
-        }
-
-        notesAdapter.refreshList(notesList)
+        notesAdapter.refreshList(notes)
         add_button.visibility = View.VISIBLE
     }
 

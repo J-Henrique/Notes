@@ -2,7 +2,7 @@ package com.jhbb.notes.core
 
 data class Resource<out T>(val status: Status, val data: T? = null, val exception: Exception? = null) {
     companion object {
-        fun <T> success(data: T?): Resource<T> {
+        fun <T> success(data: T): Resource<T> {
             return Resource(Status.SUCCESS, data)
         }
 
