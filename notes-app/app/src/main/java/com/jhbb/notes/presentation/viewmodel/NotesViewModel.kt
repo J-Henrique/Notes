@@ -25,18 +25,13 @@ class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel()
 
     fun updateNoteState(noteSelected: NoteVO) {
         viewModelScope.launch {
-            val up = notesRepository.updateNote(noteSelected)
-            val no = notesRepository.getNotes()
+            notesRepository.updateNote(noteSelected)
 
             _notes.value = notesRepository.getNotes()
         }
     }
 
     fun addNote() {
-        viewModelScope.launch {
-            val result = async { notesRepository.addNote() }
 
-            result.await()
-        }
     }
 }

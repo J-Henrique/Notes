@@ -18,14 +18,21 @@ class NotesRepositoryImpl(private val notesApi: NotesApi) : NotesRepository {
 
     override suspend fun updateNote(selectedNote: NoteVO): Resource<NoteVO> {
         return try {
-            val response = notesApi.updateNote(selectedNote.id, DataMapper.map(selectedNote).data)
+            val body = DataMapper.map(selectedNote).data.apply {
+                this.isCompleted = !this.isCompleted
+            }
+            val response = notesApi.updateNote(selectedNote.id, body)
             Resource.success(DataMapper.map(response))
         } catch (e: Exception) {
             Resource.error(e)
         }
     }
 
-    override suspend fun addNote() {
+    override suspend fun addNote(selectedNote: NoteVO) {
+        TODO("Not yet implemented")
+    }
 
+    override suspend fun deleteNote(selectedNote: NoteVO) {
+        TODO("Not yet implemented")
     }
 }

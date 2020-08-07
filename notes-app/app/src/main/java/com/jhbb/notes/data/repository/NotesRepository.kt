@@ -8,5 +8,7 @@ interface NotesRepository {
 
     suspend fun updateNote(selectedNote: NoteVO): Resource<NoteVO>
 
-    suspend fun addNote()
+    suspend fun addNote(selectedNote: NoteVO)
+
+    suspend fun deleteNote(selectedNote: NoteVO)
 }
