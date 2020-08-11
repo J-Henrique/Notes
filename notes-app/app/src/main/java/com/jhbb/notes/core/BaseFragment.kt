@@ -51,7 +51,7 @@ abstract class BaseFragment : Fragment() {
                    @StringRes message: Int,
                    @StringRes action: Int,
                    function: () -> Unit) {
-        MaterialAlertDialogBuilder(this.context)
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(action) { _, _ -> function.invoke() }

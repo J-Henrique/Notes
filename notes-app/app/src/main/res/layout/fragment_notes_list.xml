@@ -15,12 +15,15 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_button"
+        android:id="@+id/add_remove_button"
         android:layout_gravity="bottom|end"
         android:visibility="gone"
-        android:backgroundTint="@color/secondaryDarkColor"
+        app:backgroundTint="@color/secondaryDarkColor"
+        app:tint="@color/iconColor"
+        android:src="@drawable/ic_add_remove"
         android:layout_margin="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:visibility="visible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,6 +6,8 @@ import com.jhbb.notes.presentation.vo.NoteVO
 interface NotesRepository {
     suspend fun getNotes(): Resource<List<NoteVO>>
 
+    suspend fun checkNote(selectedNote: NoteVO): Resource<NoteVO>
+
     suspend fun updateNote(selectedNote: NoteVO): Resource<NoteVO>
 
     suspend fun addNote(selectedNote: NoteVO)

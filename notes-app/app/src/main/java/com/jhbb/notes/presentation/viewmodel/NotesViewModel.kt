@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.jhbb.notes.core.Resource
 import com.jhbb.notes.data.repository.NotesRepository
 import com.jhbb.notes.presentation.vo.NoteVO
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel() {
@@ -23,9 +22,9 @@ class NotesViewModel(private val notesRepository: NotesRepository) : ViewModel()
         }
     }
 
-    fun updateNoteState(noteSelected: NoteVO) {
+    fun checkNote(noteSelected: NoteVO) {
         viewModelScope.launch {
-            notesRepository.updateNote(noteSelected)
+            notesRepository.checkNote(noteSelected)
 
             _notes.value = notesRepository.getNotes()
         }

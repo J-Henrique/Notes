@@ -3,6 +3,7 @@ package com.jhbb.notes.presentation.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jhbb.notes.R
@@ -18,11 +19,13 @@ class NotesListFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<NotesViewModel>()
     private lateinit var notesAdapter: NotesListAdapter
+    private var tracker: SelectionTracker<Long>? = null
+    private val isAddNoteState = true
 
     override fun layoutId() = R.layout.fragment_notes_list
 
     private val _checkEvent: (NoteVO) -> Unit = { noteClicked ->
-        viewModel.updateNoteState(noteClicked)
+        viewModel.checkNote(noteClicked)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -35,7 +38,7 @@ class NotesListFragment : BaseFragment() {
     }
 
     private fun setupButtonEvent() {
-        add_button.setOnClickListener {
+        add_remove_button.setOnClickListener {
             viewModel.addNote()
         }
     }
@@ -58,7 +61,9 @@ class NotesListFragment : BaseFragment() {
         hideLoadingBar()
 
         notesAdapter.refreshList(notes)
-        add_button.visibility = View.VISIBLE
+        add_remove_button.visibility = View.VISIBLE
+
+//        notesAdapter.tracker = buildSelectionTracker()
     }
 
     private fun setupUi() {
@@ -78,6 +83,31 @@ class NotesListFragment : BaseFragment() {
             R.string.action_retry,
             fallback)
 
-        add_button.visibility = View.GONE
+        add_remove_button.visibility = View.GONE
     }
+
+//    private fun buildSelectionTracker(): SelectionTracker<Long> {
+//        val tracker = SelectionTracker.Builder<Long>(
+//            "mySelection",
+//            notes_list,
+//            StableIdKeyProvider(notes_list),
+//            NoteItemDetailsLookup(notes_list),
+//            StorageStrategy.createLongStorage()
+//        ).withSelectionPredicate(
+//            SelectionPredicates.createSelectAnything()
+//        ).build()
+
+//        tracker?.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
+//            override fun onSelectionChanged() {
+//                super.onSelectionChanged()
+//                if (tracker.selection!!.size() > 0) {
+//                    ViewAnimation.rotateFab(add_remove_button, true)
+//                } else {
+//                    ViewAnimation.rotateFab(add_remove_button, false)
+//                }
+//            }
+//        })
+
+//        return tracker
+//    }
 }
