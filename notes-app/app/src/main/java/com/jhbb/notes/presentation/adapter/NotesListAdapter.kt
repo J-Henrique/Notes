@@ -3,22 +3,14 @@ package com.jhbb.notes.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
+import com.jhbb.domain.model.NoteModel
 import com.jhbb.notes.R
-import com.jhbb.notes.presentation.vo.NoteVO
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NotesListAdapter(private val notesList: MutableList<NoteVO> = mutableListOf(),
-                       private val checkEvent: (NoteVO) -> Unit)
+class NotesListAdapter(private val notesList: MutableList<NoteModel> = mutableListOf(),
+                       private val checkEvent: (NoteModel) -> Unit)
     : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
-
-    var tracker: SelectionTracker<Long>? = null
-
-    init {
-        setHasStableIds(true)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view =
@@ -33,35 +25,25 @@ class NotesListAdapter(private val notesList: MutableList<NoteVO> = mutableListO
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        tracker?.let {
-            holder.bindView(notesList[position], it.isSelected(position.toLong()))
-        }
+        holder.bindView(notesList[position])
     }
 
     override fun getItemCount() = notesList.size
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    fun refreshList(notes: List<NoteVO>) {
+    fun refreshList(notes: List<NoteModel>) {
         notesList.clear()
         notesList.addAll(notes)
         notifyDataSetChanged()
     }
 
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bindView(note: NoteVO, isActivated: Boolean = false) {
+        fun bindView(note: NoteModel) {
             with(itemView) {
                 this.description.text = note.description
                 this.completed.isChecked = note.completed
-                itemView.isActivated = isActivated
             }
         }
-
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int = adapterPosition
-                override fun getSelectionKey(): Long? = itemId
-            }
     }
 }
