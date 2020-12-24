@@ -25,4 +25,17 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     abstract fun fragment(): BaseFragment
+
+    fun replaceFragment(destination: BaseFragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, destination)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun popFragment() {
+        supportFragmentManager
+            .popBackStack()
+    }
 }

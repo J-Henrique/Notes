@@ -34,7 +34,7 @@ class NotesListFragment : BaseFragment() {
 
     private fun setupButtonEvent() {
         add_remove_button.setOnClickListener {
-//            viewModel.addNote()
+            viewModel.navigateToAddNote()
         }
     }
 
@@ -74,7 +74,7 @@ class NotesListFragment : BaseFragment() {
 
     private fun errorState(fallback: () -> Unit) {
         showDialog(R.string.error_title,
-            R.string.failure_no_connection,
+            R.string.failure_message_generic,
             R.string.action_retry,
             fallback)
 

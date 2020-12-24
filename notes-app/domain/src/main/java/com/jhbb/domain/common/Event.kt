@@ -1,6 +1,6 @@
 package com.jhbb.domain.common
 
-open class Event<out T>(private val content: T) {
+open class Event<out T>(private val content: T?) {
 
     var hasBeenHandled = false
         private set // Allow external read but not write
@@ -14,5 +14,5 @@ open class Event<out T>(private val content: T) {
         }
     }
 
-    fun peekContent(): T = content
+//    fun peekContent(): T = content
 }

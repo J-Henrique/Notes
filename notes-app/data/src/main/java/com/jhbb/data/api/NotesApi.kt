@@ -11,5 +11,5 @@ interface NotesApi {
     suspend fun updateNote(@Path("id") id: String, @Body data: NoteResponse.NoteData): NoteResponse
 
     @POST("/notes")
-    suspend fun addNote(@Body data: NoteResponse): NoteResponse
+    suspend fun addNote(@Body data: NoteResponse.NoteData): NoteResponse
 }

@@ -34,7 +34,7 @@ class NotesRepositoryImpl(private val notesApi: NotesApi) : NotesRepository {
 
     override suspend fun addNote(newNote: NoteModel) {
         try {
-            notesApi.addNote(DataMapper.map(newNote))
+            notesApi.addNote(DataMapper.map(newNote).data)
         } catch (e: Exception) {
             Failure(e)
         }
