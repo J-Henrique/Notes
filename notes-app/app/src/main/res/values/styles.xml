@@ -1,7 +1,7 @@
 <resources>
     <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorPrimary">@color/backgroundColor</item>
+        <item name="colorPrimaryDark">@color/backgroundColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
 
         <item name="actionMenuTextColor">@color/primaryTextColor</item>

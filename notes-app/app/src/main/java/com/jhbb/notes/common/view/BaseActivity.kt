@@ -1,7 +1,6 @@
 package com.jhbb.notes.common.view
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.notes.R
 import kotlinx.android.synthetic.main.activity_base.*
@@ -17,11 +16,6 @@ abstract class BaseActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.fragmentContainer, fragment())
             .commit()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
     }
 
     abstract fun fragment(): BaseFragment
