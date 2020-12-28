@@ -9,8 +9,8 @@
 
     <EditText
         android:id="@+id/details"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
+        android:paddingEnd="@dimen/margin_normal"
+        android:paddingStart="@dimen/margin_normal"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:gravity="center"

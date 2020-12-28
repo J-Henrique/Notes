@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="backgroundColor">#F000</color>
+    <color name="backgroundDarkColor">#F000</color>
     <color name="backgroundLightColor">#3D3C3B</color>
 
     <color name="secondaryColor">#9c27b0</color>
@@ -8,6 +8,5 @@
     <color name="secondaryDarkColor">#6a0080</color>
 
     <color name="primaryTextColor">#ffffff</color>
-
     <color name="iconColor">#ffffff</color>
 </resources>

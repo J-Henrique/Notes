@@ -21,7 +21,7 @@
         app:backgroundTint="@color/secondaryDarkColor"
         app:tint="@color/iconColor"
         android:src="@drawable/ic_add_remove"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/margin_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:visibility="visible"/>
