@@ -5,11 +5,12 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jhbb.domain.common.Failure
+import com.jhbb.domain.common.Loading
+import com.jhbb.domain.common.Success
+import com.jhbb.domain.model.ErrorModel
 import com.jhbb.domain.model.NoteModel
 import com.jhbb.notes.R
-import com.jhbb.notes.common.model.Error
-import com.jhbb.notes.common.model.Loading
-import com.jhbb.notes.common.model.Success
 import com.jhbb.notes.common.view.BaseFragment
 import com.jhbb.notes.presentation.adapter.NotesListAdapter
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
@@ -43,8 +44,8 @@ class NotesListFragment : BaseFragment() {
             this.notes.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is Loading -> showLoadingBar()
-                    is Success -> dataState(it.data)
-                    is Error -> errorState(::refreshAdapter)
+                    is Success -> renderNotes(it.data)
+                    is Failure -> handleError(::refreshAdapter, it.error)
                 }
             })
         }
@@ -54,7 +55,7 @@ class NotesListFragment : BaseFragment() {
         viewModel.refreshNotes()
     }
 
-    private fun dataState(notes: List<NoteModel>) {
+    private fun renderNotes(notes: List<NoteModel>) {
         hideLoadingBar()
 
         notesAdapter.refreshList(notes)
@@ -72,11 +73,8 @@ class NotesListFragment : BaseFragment() {
         }
     }
 
-    private fun errorState(fallback: () -> Unit) {
-        showDialog(R.string.error_title,
-            R.string.failure_message_generic,
-            R.string.action_retry,
-            fallback)
+    override fun handleError(fallback: () -> Unit, error: ErrorModel) {
+        super.handleError(fallback, error)
 
         add_remove_button.visibility = View.GONE
     }

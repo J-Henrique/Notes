@@ -8,6 +8,9 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.jhbb.domain.model.ErrorModel
+import com.jhbb.domain.model.Network
+import com.jhbb.notes.R
 import kotlinx.android.synthetic.main.activity_base.*
 
 abstract class BaseFragment : Fragment() {
@@ -22,22 +25,22 @@ abstract class BaseFragment : Fragment() {
         return inflater.inflate(layoutId(), container, false)
     }
 
-    fun showLoadingBar() {
+    protected fun showLoadingBar() {
         activity?.loadingBar?.visibility = View.VISIBLE
     }
 
-    fun hideLoadingBar() {
+    protected fun hideLoadingBar() {
         activity?.loadingBar?.visibility = View.INVISIBLE
     }
 
-    fun showMessage(@StringRes message: Int) {
+    protected fun showMessage(@StringRes message: Int) {
         activity?.loadingBar?.visibility = View.INVISIBLE
         if (activity is BaseActivity) {
             Snackbar.make((activity as BaseActivity).fragmentContainer, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
-    fun showMessageWithAction(@StringRes message: Int, @StringRes action: Int, function: () -> Unit) {
+    protected fun showMessageWithAction(@StringRes message: Int, @StringRes action: Int, function: () -> Unit) {
         activity?.loadingBar?.visibility = View.INVISIBLE
         if (activity is BaseActivity) {
             Snackbar.make((activity as BaseActivity).fragmentContainer, message, Snackbar.LENGTH_INDEFINITE)
@@ -46,7 +49,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    fun showDialog(@StringRes title: Int,
+    protected fun showDialog(@StringRes title: Int,
                    @StringRes message: Int,
                    @StringRes action: Int,
                    function: () -> Unit) {
@@ -55,5 +58,21 @@ abstract class BaseFragment : Fragment() {
             .setMessage(message)
             .setPositiveButton(action) { _, _ -> function.invoke() }
             .show()
+    }
+
+    protected open fun handleError(fallback: () -> Unit, error: ErrorModel) {
+        when (error) {
+            is Network -> showDialog(
+                R.string.error_title_no_connection,
+                R.string.failure_no_connection,
+                R.string.action_retry,
+                fallback)
+
+            else -> showDialog(
+                R.string.error_title_generic,
+                R.string.failure_message_generic,
+                R.string.action_retry,
+                fallback)
+        }
     }
 }

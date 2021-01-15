@@ -2,9 +2,10 @@
     <string name="app_name">Notes</string>
 
     <!-- Messages -->
-    <string name="error_title">Error</string>
+    <string name="error_title_generic">Error</string>
+    <string name="error_title_no_connection">No connection</string>
     <string name="failure_message_generic">An error occurred</string>
-    <string name="failure_no_connection">No network connection</string>
+    <string name="failure_no_connection">Failed to connect to the server</string>
 
     <!-- Action -->
     <string name="action_retry">Retry</string>
