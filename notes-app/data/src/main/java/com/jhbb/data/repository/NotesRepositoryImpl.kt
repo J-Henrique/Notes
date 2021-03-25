@@ -8,8 +8,6 @@ import com.jhbb.domain.common.Result
 import com.jhbb.domain.common.Success
 import com.jhbb.domain.model.NoteModel
 import com.jhbb.domain.repository.NotesRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class NotesRepositoryImpl(
     private val notesApi: NotesApi,
@@ -17,24 +15,20 @@ class NotesRepositoryImpl(
 ) : NotesRepository {
 
     override suspend fun getNotes(): Result<List<NoteModel>> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val fetchedNotes = notesApi.getNotes().map { DataMapper.map(it) }
-                Success(fetchedNotes)
-            } catch (e: Exception) {
-                Failure(errorMapper.getType(e))
-            }
+        return try {
+            val fetchedNotes = notesApi.getNotes().map { DataMapper.map(it) }
+            Success(fetchedNotes)
+        } catch (e: Exception) {
+            Failure(errorMapper.getType(e))
         }
     }
 
     override suspend fun checkNote(checkedNote: NoteModel): Result<NoteModel> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = notesApi.updateNote(checkedNote.id, DataMapper.map(checkedNote).data)
-                Success(DataMapper.map(response))
-            } catch (e: Exception) {
-                Failure(errorMapper.getType(e))
-            }
+        return try {
+            val response = notesApi.updateNote(checkedNote.id, DataMapper.map(checkedNote).data)
+            Success(DataMapper.map(response))
+        } catch (e: Exception) {
+            Failure(errorMapper.getType(e))
         }
     }
 
@@ -43,12 +37,10 @@ class NotesRepositoryImpl(
     }
 
     override suspend fun addNote(newNote: NoteModel) {
-        withContext(Dispatchers.IO) {
-            try {
-                notesApi.addNote(DataMapper.map(newNote).data)
-            } catch (e: Exception) {
-                Failure(errorMapper.getType(e))
-            }
+        try {
+            notesApi.addNote(DataMapper.map(newNote).data)
+        } catch (e: Exception) {
+            Failure(errorMapper.getType(e))
         }
     }
 

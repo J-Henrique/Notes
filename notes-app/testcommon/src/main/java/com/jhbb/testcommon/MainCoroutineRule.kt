@@ -1,4 +1,4 @@
-package com.jhbb.notes.util
+package com.jhbb.testcommon
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -12,9 +12,11 @@ import com.jhbb.domain.usecase.FetchNotesUseCase
 import com.jhbb.notes.presentation.navigation.AddNote
 import com.jhbb.notes.presentation.navigation.Navigation
 import com.jhbb.notes.presentation.navigation.NotesList
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class NotesViewModel(
+    private val defaultDispatcher: CoroutineDispatcher,
     private val fetchNotesUseCase: FetchNotesUseCase,
     private val checkNoteUseCase: CheckNoteUseCase,
     private val addNoteUseCase: AddNoteUseCase
@@ -29,7 +31,7 @@ class NotesViewModel(
     fun refreshNotes() {
         _notes.value = Loading
 
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             fetchNotesUseCase()
                 .onSuccess { _notes.value = Success(it) }
                 .onFailure { _notes.value = Failure(it) }
@@ -37,7 +39,7 @@ class NotesViewModel(
     }
 
     fun checkNote(noteSelected: NoteModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             checkNoteUseCase(noteSelected)
         }
     }
@@ -47,7 +49,7 @@ class NotesViewModel(
     }
 
     fun navigateToNotesList(noteToAdd: NoteModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(defaultDispatcher) {
             addNoteUseCase(noteToAdd)
         }
         _navigate.value = Event(NotesList)

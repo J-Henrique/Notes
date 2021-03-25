@@ -1,3 +1,4 @@
+include ':testcommon'
 include ':domain'
 include ':data'
 rootProject.name='Notes'
