@@ -11,6 +11,8 @@ java {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    testImplementation project(':testcommon')
+
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation "org.koin:koin-core:$koin_version"
 

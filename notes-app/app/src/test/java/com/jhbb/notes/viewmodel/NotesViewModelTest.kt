@@ -69,11 +69,11 @@ class NotesViewModelTest {
 
         viewModel.refreshNotes()
         viewModel.notes.observeForTesting {
-            assert(viewModel.notes.value is Loading)
+            Assert.assertTrue(viewModel.notes.value is Loading)
 
             testDispatcher.resumeDispatcher()
 
-            assert(viewModel.notes.value is Success)
+            Assert.assertTrue(viewModel.notes.value is Success)
         }
     }
 
