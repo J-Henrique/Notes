@@ -4,18 +4,24 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    def test_versions = rootProject.ext.test
 
     implementation project(':domain')
     testImplementation project(':testcommon')
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-
     implementation "org.koin:koin-core:$koin_version"
+
+    testImplementation "junit:junit:$test_versions.junit"
+    testImplementation "org.hamcrest:hamcrest-all:$test_versions.hamcrest"
+    testImplementation "androidx.arch.core:core-testing:$test_versions.androidx_core_testing"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_versions.coroutines_test"
+    testImplementation "io.mockk:mockk:$test_versions.mockk"
 }

@@ -39,12 +39,11 @@ class NotesViewModelTest {
     private val checkNoteUseCase = mockk<CheckNoteUseCase>()
     private val addNoteUseCase = mockk<AddNoteUseCase>()
 
-    private val mockNotes = mutableListOf<NoteModel>().also {
-        it.add(NoteModel("1", "note1", false))
-        it.add(NoteModel("2", "note2", true))
-        it.add(NoteModel("3", "note3", false))
-        it.add(NoteModel("4", "note4", true))
-    }
+    private val mockNotes = listOf(
+        NoteModel("1", "note1", false),
+        NoteModel("2", "note2", true),
+        NoteModel("3", "note3", false),
+        NoteModel("4", "note4", true))
 
     @Before
     fun setup() {

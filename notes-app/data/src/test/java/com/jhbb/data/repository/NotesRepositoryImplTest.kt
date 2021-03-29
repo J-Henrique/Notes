@@ -85,16 +85,16 @@ class NotesRepositoryImplTest {
     @Test
     fun `Should call the API responsible for adding notes`() = runBlockingTest {
         val noteToAdd = NoteModel("1", "note to add", true)
-        val parsedNote = DataMapper.map(noteToAdd).data
+        val parsedNote = DataMapper.map(noteToAdd)
         val slot = slot<NoteResponse.NoteData>()
 
-        coEvery { notesApi.addNote(any()) } answers { mockk() }
+        coEvery { notesApi.addNote(any()) } coAnswers { parsedNote }
 
         repository.addNote(noteToAdd)
 
         coVerify { notesApi.addNote(capture(slot)) }
         assertArrayEquals(
-                arrayOf(parsedNote.title, parsedNote.isCompleted),
+                arrayOf(parsedNote.data.title, parsedNote.data.isCompleted),
                 arrayOf(slot.captured.title, slot.captured.isCompleted))
     }
 

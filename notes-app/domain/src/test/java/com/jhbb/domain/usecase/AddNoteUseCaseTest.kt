@@ -1,9 +1,9 @@
 package com.jhbb.domain.usecase
 
-import com.jhbb.domain.common.Success
-import com.jhbb.domain.model.NoteModel
 import com.jhbb.domain.repository.NotesRepository
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -21,10 +21,10 @@ class AddNoteUseCaseTest {
 
     @Test
     fun `Should call repository function to add note`() = runBlockingTest {
-        coEvery { repository.addNote(any()) } just Runs
+        coEvery { repository.addNote(any()) } answers { mockk() }
 
         useCase(mockk())
 
-        coVerify { repository.addNote(any()) }
+        coVerify{ repository.addNote(any()) }
     }
 }
