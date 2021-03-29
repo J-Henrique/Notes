@@ -36,9 +36,10 @@ class NotesRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun addNote(newNote: NoteModel) {
-        try {
-            notesApi.addNote(DataMapper.map(newNote).data)
+    override suspend fun addNote(newNote: NoteModel): Result<NoteModel> {
+        return try {
+            val response = notesApi.addNote(DataMapper.map(newNote).data)
+            Success(DataMapper.map(response))
         } catch (e: Exception) {
             Failure(errorMapper.getType(e))
         }

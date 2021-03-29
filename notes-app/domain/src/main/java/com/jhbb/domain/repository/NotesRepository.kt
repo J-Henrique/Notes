@@ -10,7 +10,7 @@ interface NotesRepository {
 
     suspend fun updateNote(updatedNote: NoteModel): Result<NoteModel>
 
-    suspend fun addNote(newNote: NoteModel)
+    suspend fun addNote(newNote: NoteModel): Result<NoteModel>
 
     suspend fun deleteNote(deletedNote: NoteModel)
 }

@@ -6,7 +6,7 @@ import com.jhbb.domain.model.Network
 import com.jhbb.domain.model.Unknown
 import java.io.IOException
 
-class ErrorMapperImpl: ErrorMapper {
+class ErrorMapperImpl : ErrorMapper {
     override fun getType(exception: Exception): ErrorModel {
         return when(exception) {
             is IOException -> Network

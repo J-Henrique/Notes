@@ -2,7 +2,6 @@ package com.jhbb.notes.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.jhbb.domain.common.Event
 import com.jhbb.domain.common.Loading
 import com.jhbb.domain.common.Result
 import com.jhbb.domain.common.Success
@@ -14,14 +13,12 @@ import com.jhbb.notes.presentation.navigation.AddNote
 import com.jhbb.notes.presentation.navigation.NotesList
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
 import com.jhbb.testcommon.MainCoroutineRule
-import com.jhbb.testcommon.getOrAwaitValue
 import com.jhbb.testcommon.observeForTesting
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -62,18 +59,18 @@ class NotesViewModelTest {
     OPTION 1: Test LiveDatas using a test dispatcher that is paused and resumed
      */
     @Test
-    fun `OPTION 1 - Should propagate LOADING and SUCCESS states when notes are refreshed`() {
+    fun `OPTION 1 - Should dispatch LOADING and SUCCESS states when notes are refreshed`() {
         coEvery { fetchNotesUseCase() } coAnswers { Success(mockNotes) }
 
         testDispatcher.pauseDispatcher()
 
         viewModel.refreshNotes()
         viewModel.notes.observeForTesting {
-            Assert.assertTrue(viewModel.notes.value is Loading)
+            assertTrue(viewModel.notes.value is Loading)
 
             testDispatcher.resumeDispatcher()
 
-            Assert.assertTrue(viewModel.notes.value is Success)
+            assertTrue(viewModel.notes.value is Success)
         }
     }
 
@@ -81,7 +78,7 @@ class NotesViewModelTest {
     OPTION 2: Test LiveDatas using a mock provided by Mockk and observed forever
     */
     @Test
-    fun `OPTION 2 - Should propagate LOADING and SUCCESS states when notes are refreshed`() {
+    fun `OPTION 2 - Should dispatch LOADING and SUCCESS states when notes are refreshed`() {
         val observer = mockk<Observer<Result<List<NoteModel>>>> {
             every { onChanged(any()) } just Runs
         }
@@ -108,17 +105,41 @@ class NotesViewModelTest {
             testDispatcher.resumeDispatcher()
 
             val notes = (viewModel.notes.value as Success).data
-            Assert.assertEquals(4, notes.size)
+            assertEquals(4, notes.size)
         }
     }
 
     @Test
-    fun `Should pass a selected note to be checked`() {
-        val selectedNote = NoteModel("1", "note1", false)
-        coEvery { checkNoteUseCase(any()) } coAnswers { Success(selectedNote) }
+    fun `Should call the use case responsible for checking notes`() {
+        coEvery { checkNoteUseCase(any()) } coAnswers { mockk() }
 
-        viewModel.checkNote(selectedNote)
+        viewModel.checkNote(mockk())
 
-        coVerify(exactly = 1) { checkNoteUseCase(any()) }
+        coVerify { checkNoteUseCase(any()) }
+    }
+
+    @Test
+    fun `Should call the use case responsible for adding notes`() {
+        coEvery { addNoteUseCase(any()) } coAnswers { mockk() }
+
+        viewModel.navigateToNotesList(mockk())
+
+        coVerify { addNoteUseCase(any()) }
+    }
+
+    @Test
+    fun `Should dispatch an 'navigate to add notes' event`() {
+        viewModel.navigateToAddNote()
+
+        assertTrue(viewModel.navigate.value?.peekContent() is AddNote)
+    }
+
+    @Test
+    fun `Should dispatch an 'navigate to notes' list event`() {
+        coEvery { addNoteUseCase(any()) } coAnswers { mockk() }
+
+        viewModel.navigateToNotesList(mockk())
+
+        assertTrue(viewModel.navigate.value?.peekContent() is NotesList)
     }
 }
