@@ -38,7 +38,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should successfully return a list of notes from API`() = runBlockingTest {
+    fun `Should successfully return a list of notes from API`() = mainCoroutineRule.runBlockingTest {
         coEvery { notesApi.getNotes() } answers { notesList}
 
         val result = repository.getNotes()
@@ -48,7 +48,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should parse the result as a failure when fetching notes`() = runBlockingTest {
+    fun `Should parse the result as a failure when fetching notes`() = mainCoroutineRule.runBlockingTest {
         coEvery { notesApi.getNotes() } throws Exception()
         every { errorMapper.getType(any()) } answers { mockk() }
 
@@ -58,7 +58,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should check a selected note and return this object`() = runBlockingTest {
+    fun `Should check a selected note and return this object`() = mainCoroutineRule.runBlockingTest {
         val response = NoteResponse("1", NoteResponse.NoteData("note description", false))
         val noteToCheck = NoteModel("1", "note description", false)
 
@@ -73,7 +73,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should parse the result as a failure when checking a note`() = runBlockingTest {
+    fun `Should parse the result as a failure when checking a note`() = mainCoroutineRule.runBlockingTest {
         coEvery { notesApi.updateNote(any(), any()) } throws Exception()
         every { errorMapper.getType(any()) } answers { mockk() }
 
@@ -83,7 +83,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should call the API responsible for adding notes`() = runBlockingTest {
+    fun `Should call the API responsible for adding notes`() = mainCoroutineRule.runBlockingTest {
         val noteToAdd = NoteModel("1", "note to add", true)
         val parsedNote = DataMapper.map(noteToAdd)
         val slot = slot<NoteResponse.NoteData>()
@@ -99,7 +99,7 @@ class NotesRepositoryImplTest {
     }
 
     @Test
-    fun `Should parse the result as a failure when adding a note`() = runBlockingTest {
+    fun `Should parse the result as a failure when adding a note`() = mainCoroutineRule.runBlockingTest {
         coEvery { notesApi.addNote(any()) } throws Exception()
         every { errorMapper.getType(any()) } answers { mockk() }
 

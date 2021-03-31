@@ -12,7 +12,6 @@ import com.jhbb.domain.usecase.FetchNotesUseCase
 import com.jhbb.notes.presentation.navigation.AddNote
 import com.jhbb.notes.presentation.navigation.NotesList
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import com.jhbb.testcommon.MainCoroutineRule
 import com.jhbb.testcommon.observeForTesting
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,9 +27,6 @@ class NotesViewModelTest {
 
     @get:Rule
     var instantRule = InstantTaskExecutorRule()
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
 
     private val testDispatcher = TestCoroutineDispatcher()
     private lateinit var viewModel: NotesViewModel
