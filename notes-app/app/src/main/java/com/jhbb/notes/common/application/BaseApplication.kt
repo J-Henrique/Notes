@@ -8,7 +8,7 @@ import com.jhbb.data.di.modules as DataModules
 import com.jhbb.domain.di.modules as DomainModules
 import com.jhbb.notes.presentation.di.modules as PresentationModules
 
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

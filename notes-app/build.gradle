@@ -4,7 +4,7 @@ apply from: 'ext/dependencies.gradle'
 buildscript {
     ext {
         kotlin_version = '1.3.61'
-        koin_version = '2.1.5'
+        koin_version = '2.2.2'
     }
     repositories {
         google()
@@ -50,4 +50,12 @@ task runUnitTests(dependsOn: [
         'runDataUnitTests',
         'runPresentationUnitTests']) {
     description 'Run unit tests for domain, data and presentation layers.'
+}
+
+task runInstrumentedTests(dependsOn: [':app:connectedAndroidTest']) {
+    description 'Run instrumented tests.'
+}
+
+task runAllTests(dependsOn: ['runUnitTests', 'runInstrumentedTests']) {
+    description 'Run all tests of the project.'
 }
