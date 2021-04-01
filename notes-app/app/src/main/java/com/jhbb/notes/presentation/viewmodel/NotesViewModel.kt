@@ -33,8 +33,8 @@ class NotesViewModel(
 
         viewModelScope.launch(defaultDispatcher) {
             fetchNotesUseCase()
-                .onSuccess { _notes.value = Success(it) }
-                .onFailure { _notes.value = Failure(it) }
+                .onSuccess { _notes.postValue(Success(it)) }
+                .onFailure { _notes.postValue(Failure(it)) }
         }
     }
 
