@@ -12,29 +12,30 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL: String = "http://10.0.2.2:3000/"
-
-val modules = module {
-    single { NotesRepositoryImpl(get(), get()) as NotesRepository }
-    single { provideRetrofit() }
-    factory { provideNotesApi(get()) }
-    factory { ErrorMapperImpl() as ErrorMapper}
-}
-
-private fun provideRetrofit(): Retrofit {
-    val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+object DataModule {
+    fun getDataModules(baseUrl: String) = module {
+        single { NotesRepositoryImpl(get(), get()) as NotesRepository }
+        factory { provideNotesApi(get()) }
+        factory { ErrorMapperImpl() as ErrorMapper}
+        single { provideRetrofit(baseUrl) }
     }
-    val httpClient = OkHttpClient.Builder()
 
-    httpClient.addInterceptor(loggingInterceptor)
-    httpClient.connectTimeout(30, TimeUnit.SECONDS)
-    httpClient.readTimeout(30, TimeUnit.SECONDS)
 
-    return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+    private fun provideRetrofit(baseUrl: String): Retrofit {
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val httpClient = OkHttpClient.Builder()
+
+        httpClient.addInterceptor(loggingInterceptor)
+        httpClient.connectTimeout(30, TimeUnit.SECONDS)
+        httpClient.readTimeout(30, TimeUnit.SECONDS)
+
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-}
+    }
 
-private fun provideNotesApi(retrofit: Retrofit): NotesApi = retrofit.create(NotesApi::class.java)
+    private fun provideNotesApi(retrofit: Retrofit): NotesApi = retrofit.create(NotesApi::class.java)
+}

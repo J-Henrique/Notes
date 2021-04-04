@@ -6,66 +6,50 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.jhbb.domain.common.Success
-import com.jhbb.domain.model.NoteModel
-import com.jhbb.domain.usecase.AddNoteUseCase
-import com.jhbb.domain.usecase.CheckNoteUseCase
-import com.jhbb.domain.usecase.FetchNotesUseCase
+import com.jhbb.data.di.DataModule
 import com.jhbb.notes.R
-import com.jhbb.notes.presentation.viewmodel.NotesViewModel
+import com.jhbb.notes.base.BaseUITest
 import com.jhbb.notes.utils.atPosition
-import com.jhbb.testcommon.MainCoroutineRule
-import io.mockk.coEvery
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
+import org.koin.core.context.unloadKoinModules
+import java.net.HttpURLConnection
+import com.jhbb.domain.di.modules as DomainModules
+import com.jhbb.notes.presentation.di.modules as PresentationModules
 
-@ExperimentalCoroutinesApi
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class NotesListFragmentTest : AutoCloseKoinTest() {
-
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
-
-    private val fetchNotesUseCase = mockk<FetchNotesUseCase> {
-        coEvery { this@mockk() } coAnswers { Success(mockNotes) }
-    }
-    private val checkNoteUseCase = mockk<CheckNoteUseCase>()
-    private val addNoteUseCase = mockk<AddNoteUseCase>()
-
-    private val mockNotes = listOf(
-        NoteModel("1", "Note 1", false),
-        NoteModel("2", "Note 2", true),
-        NoteModel("3", "Note 3", true),
-        NoteModel("4", "Note 4", false),
-        NoteModel("5", "Note 5", false))
+@ExperimentalCoroutinesApi
+class NotesListFragmentTest : BaseUITest() {
 
     @Before
     fun setup() {
-        startKoin {
-            loadKoinModules(module {
-                    viewModel {
-                        NotesViewModel(
-                                mainCoroutineRule.dispatcher,
-                                fetchNotesUseCase,
-                                checkNoteUseCase,
-                                addNoteUseCase)
-                    }
-                })
-        }
+        super.before()
+        loadKoinModules(listOf(
+            PresentationModules,
+            DataModule.getDataModules(getMockWebServerUrl()),
+            DomainModules
+        ))
+    }
+
+    @After
+    fun teardown() {
+        super.after()
+        unloadKoinModules(listOf(
+            PresentationModules,
+            DataModule.getDataModules(getMockWebServerUrl()),
+            DomainModules
+        ))
     }
 
     @Test
     fun should_display_a_list_of_notes() {
+        mockWebServerResponse("success_response.json", HttpURLConnection.HTTP_OK)
+
         launchFragmentInContainer<NotesListFragment>(themeResId = R.style.Theme_NotesApp)
 
         onView(withId(R.id.notes_list))
@@ -74,6 +58,8 @@ class NotesListFragmentTest : AutoCloseKoinTest() {
 
     @Test
     fun should_display_notes_descriptions() {
+        mockWebServerResponse("success_response.json", HttpURLConnection.HTTP_OK)
+
         launchFragmentInContainer<NotesListFragment>(themeResId = R.style.Theme_NotesApp)
 
         onView(withId(R.id.notes_list))
@@ -86,18 +72,22 @@ class NotesListFragmentTest : AutoCloseKoinTest() {
 
     @Test
     fun should_display_notes_conclusion_status() {
+        mockWebServerResponse("success_response.json", HttpURLConnection.HTTP_OK)
+
         launchFragmentInContainer<NotesListFragment>(themeResId = R.style.Theme_NotesApp)
 
         onView(withId(R.id.notes_list))
-                .check(matches(atPosition(0, hasDescendant(isNotChecked()))))
-                .check(matches(atPosition(1, hasDescendant(isChecked()))))
-                .check(matches(atPosition(2, hasDescendant(isChecked()))))
-                .check(matches(atPosition(3, hasDescendant(isNotChecked()))))
-                .check(matches(atPosition(4, hasDescendant(isNotChecked()))))
+                .check(matches(atPosition(0, hasDescendant(isChecked()))))
+                .check(matches(atPosition(1, hasDescendant(isNotChecked()))))
+                .check(matches(atPosition(2, hasDescendant(isNotChecked()))))
+                .check(matches(atPosition(3, hasDescendant(isChecked()))))
+                .check(matches(atPosition(4, hasDescendant(isChecked()))))
     }
 
     @Test
     fun should_display_a_fab() {
+        mockWebServerResponse("success_response.json", HttpURLConnection.HTTP_OK)
+
         launchFragmentInContainer<NotesListFragment>(themeResId = R.style.Theme_NotesApp)
 
         onView(withId(R.id.add_remove_button)).check(matches(isDisplayed()))
