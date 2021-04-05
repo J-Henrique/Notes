@@ -11,12 +11,9 @@ import com.jhbb.notes.R
 import com.jhbb.notes.base.BaseUITest
 import com.jhbb.notes.utils.atPosition
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.unloadKoinModules
+import org.koin.core.module.Module
 import java.net.HttpURLConnection
 import com.jhbb.domain.di.modules as DomainModules
 import com.jhbb.notes.presentation.di.modules as PresentationModules
@@ -26,24 +23,11 @@ import com.jhbb.notes.presentation.di.modules as PresentationModules
 @ExperimentalCoroutinesApi
 class NotesListFragmentTest : BaseUITest() {
 
-    @Before
-    fun setup() {
-        super.before()
-        loadKoinModules(listOf(
-            PresentationModules,
-            DataModule.getDataModules(getMockWebServerUrl()),
-            DomainModules
-        ))
-    }
-
-    @After
-    fun teardown() {
-        super.after()
-        unloadKoinModules(listOf(
-            PresentationModules,
-            DataModule.getDataModules(getMockWebServerUrl()),
-            DomainModules
-        ))
+    override fun mockModules(): List<Module> {
+        return listOf(
+                PresentationModules,
+                DataModule.getDataModules(getMockWebServerUrl()),
+                DomainModules)
     }
 
     @Test

@@ -7,15 +7,27 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import com.jhbb.data.di.DataModule
 import com.jhbb.notes.R
+import com.jhbb.notes.base.BaseUITest
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.test.AutoCloseKoinTest
+import org.koin.core.module.Module
+import com.jhbb.domain.di.modules as DomainModules
+import com.jhbb.notes.presentation.di.modules as PresentationModules
 
 @MediumTest
 @RunWith(AndroidJUnit4::class)
-class AddNoteFragmentTest : AutoCloseKoinTest() {
+class AddNoteFragmentTest : BaseUITest() {
+
+    override fun mockModules(): List<Module> {
+        return listOf(
+            DomainModules,
+            DataModule.getDataModules(getMockWebServerUrl()),
+            PresentationModules
+        )
+    }
 
     @Test
     fun should_display_an_empty_field_to_type_a_note() {

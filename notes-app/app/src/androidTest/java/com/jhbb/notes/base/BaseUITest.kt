@@ -7,6 +7,9 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
+import org.koin.core.module.Module
 import org.koin.test.KoinTest
 import java.io.BufferedReader
 import java.io.Reader
@@ -14,19 +17,20 @@ import java.io.Reader
 abstract class BaseUITest : KoinTest {
     private lateinit var mockServer: MockWebServer
 
-    @Before
-    open fun before() {
-        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+    abstract fun mockModules(): List<Module>
 
-        mockServer = MockWebServer()
-        mockServer.start()
+    @Before
+    fun before() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+        mockServer = MockWebServer().apply { this.start() }
+        loadKoinModules(mockModules())
     }
 
     @After
-    open fun after() {
+    fun after() {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
-
         mockServer.shutdown()
+        unloadKoinModules(mockModules())
     }
 
     fun mockWebServerResponse(fileName: String, responseCode: Int) =
@@ -39,7 +43,7 @@ abstract class BaseUITest : KoinTest {
     fun getMockWebServerUrl() = mockServer.url("").toString()
 
     private fun getJson(path: String): String {
-        var content = ""
+        var content: String
         val testContext = InstrumentationRegistry.getInstrumentation().context
         val inputStream = testContext.assets.open(path)
         val reader = BufferedReader(inputStream.reader() as Reader?)
