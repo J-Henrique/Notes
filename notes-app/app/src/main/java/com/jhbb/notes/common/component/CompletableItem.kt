@@ -9,28 +9,26 @@ import com.jhbb.notes.R
 import com.jhbb.notes.common.extension.tintTextAnimation
 import kotlinx.android.synthetic.main.completable_item.view.*
 
-class CompletableItem : LinearLayout {
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        context.theme.obtainStyledAttributes(
-            attrs, R.styleable.CompletableItem, 0, 0).apply {
-            description.text = this.getString(R.styleable.CompletableItem_taskText)
-            recycle()
-        }
-    }
-    constructor(context: Context, callback: OnCheckListener?) : super(context) {
-        this.callbackAction = callback
-    }
-
-    private var callbackAction: OnCheckListener? = null
+class CompletableItem(context: Context, attrs: AttributeSet? = null) :
+    LinearLayout(context, attrs) {
 
     private val primaryColor = ContextCompat.getColor(context, R.color.primaryTextColor)
     private val secondaryColor = ContextCompat.getColor(context, R.color.secondaryColor)
     private var index: Int? = null
+    private var callbackAction: OnCheckListener? = null
 
     interface OnCheckListener { fun checked(index: Int?) }
 
     init {
         inflate(context, R.layout.completable_item, this)
+
+        attrs?.let {
+            context.theme.obtainStyledAttributes(
+                it, R.styleable.CompletableItem, 0, 0).apply {
+                description.text = this.getString(R.styleable.CompletableItem_taskText)
+                recycle()
+            }
+        }
 
         completed.setOnClickListener {
             tintText((it as CheckBox).isChecked)
@@ -53,6 +51,10 @@ class CompletableItem : LinearLayout {
 
     fun setIndex(index: Int) {
         this.index = index
+    }
+
+    fun setCallback(action: OnCheckListener) {
+        callbackAction = action
     }
 
     private fun tintText(isChecked: Boolean) {

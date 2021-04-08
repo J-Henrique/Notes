@@ -8,10 +8,10 @@ import com.jhbb.notes.common.component.CompletableItem
 
 class NotesListAdapter(private val notesList: MutableList<NoteModel> = mutableListOf(),
                        private val checkEvent: (NoteModel) -> Unit)
-    : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>(), CompletableItem.OnCheckListener {
+    : RecyclerView.Adapter<NotesListAdapter.NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val view = CompletableItem(parent.context, this).apply {
+        val view = CompletableItem(parent.context).apply {
             layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
 
@@ -26,10 +26,6 @@ class NotesListAdapter(private val notesList: MutableList<NoteModel> = mutableLi
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun checked(index: Int?) {
-        index?.let { checkEvent(notesList[it]) }
-    }
-
     fun refreshList(notes: List<NoteModel>) {
         notesList.clear()
         notesList.addAll(notes)
@@ -42,6 +38,11 @@ class NotesListAdapter(private val notesList: MutableList<NoteModel> = mutableLi
                 this.setText(note.description)
                 this.setStatus(note.completed)
                 this.setIndex(this@NoteViewHolder.adapterPosition)
+                this.setCallback(object : CompletableItem.OnCheckListener {
+                    override fun checked(index: Int?) {
+                        index?.let { checkEvent(notesList[index]) }
+                    }
+                })
             }
         }
     }
