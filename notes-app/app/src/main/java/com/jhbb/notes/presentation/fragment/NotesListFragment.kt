@@ -44,7 +44,7 @@ class NotesListFragment : BaseFragment() {
             this.notes.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is Loading -> showLoadingBar()
-                    is Success -> renderNotes(it.data)
+                    is Success -> renderNotesList(it.data)
                     is Failure -> handleError(::refreshAdapter, it.error)
                 }
             })
@@ -55,9 +55,8 @@ class NotesListFragment : BaseFragment() {
         viewModel.refreshNotes()
     }
 
-    private fun renderNotes(notes: List<NoteModel>) {
+    private fun renderNotesList(notes: List<NoteModel>) {
         hideLoadingBar()
-
         notesAdapter.refreshList(notes)
         add_remove_button.visibility = View.VISIBLE
     }
