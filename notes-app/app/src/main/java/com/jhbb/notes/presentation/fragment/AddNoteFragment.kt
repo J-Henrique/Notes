@@ -1,28 +1,39 @@
 package com.jhbb.notes.presentation.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.jhbb.domain.model.NoteModel
-import com.jhbb.notes.R
 import com.jhbb.notes.common.extension.hideKeyboard
 import com.jhbb.notes.common.extension.showKeyboard
 import com.jhbb.notes.common.view.BaseFragment
+import com.jhbb.notes.databinding.FragmentAddNoteBinding
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import kotlinx.android.synthetic.main.fragment_add_note.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class AddNoteFragment : BaseFragment() {
     private val viewModel by sharedViewModel<NotesViewModel>()
 
-    override fun layoutId() = R.layout.fragment_add_note
+    private var _binding: FragmentAddNoteBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAddNoteBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         context?.showKeyboard()
 
-        details.run {
+        binding.details.run {
             this.requestFocus()
             this.setOnEditorActionListener { note, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
@@ -39,5 +50,10 @@ class AddNoteFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

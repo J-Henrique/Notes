@@ -3,14 +3,18 @@ package com.jhbb.notes.common.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.jhbb.notes.R
-import kotlinx.android.synthetic.main.activity_base.*
+import com.jhbb.notes.databinding.ActivityBaseBinding
 
 abstract class BaseActivity : AppCompatActivity() {
 
+     lateinit var binding: ActivityBaseBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_base)
-        setSupportActionBar(toolbar)
+        binding = ActivityBaseBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
 
         supportFragmentManager
             .beginTransaction()

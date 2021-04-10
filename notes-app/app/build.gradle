@@ -40,6 +40,10 @@ android {
             returnDefaultValues = true
         }
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {

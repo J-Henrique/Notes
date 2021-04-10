@@ -1,7 +1,9 @@
 package com.jhbb.notes.presentation.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,11 +12,10 @@ import com.jhbb.domain.common.Loading
 import com.jhbb.domain.common.Success
 import com.jhbb.domain.model.ErrorModel
 import com.jhbb.domain.model.NoteModel
-import com.jhbb.notes.R
 import com.jhbb.notes.common.view.BaseFragment
+import com.jhbb.notes.databinding.FragmentNotesListBinding
 import com.jhbb.notes.presentation.adapter.NotesListAdapter
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import kotlinx.android.synthetic.main.fragment_notes_list.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class NotesListFragment : BaseFragment() {
@@ -22,7 +23,17 @@ class NotesListFragment : BaseFragment() {
     private val viewModel by sharedViewModel<NotesViewModel>()
     private lateinit var notesAdapter: NotesListAdapter
 
-    override fun layoutId() = R.layout.fragment_notes_list
+    private var _binding: FragmentNotesListBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentNotesListBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -33,8 +44,13 @@ class NotesListFragment : BaseFragment() {
         refreshAdapter()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setupButtonEvent() {
-        add_remove_button.setOnClickListener {
+        binding.addRemoveButton.setOnClickListener {
             viewModel.navigateToAddNote()
         }
     }
@@ -58,23 +74,23 @@ class NotesListFragment : BaseFragment() {
     private fun renderNotesList(notes: List<NoteModel>) {
         hideLoadingBar()
         notesAdapter.refreshList(notes)
-        add_remove_button.visibility = View.VISIBLE
+        binding.addRemoveButton.visibility = View.VISIBLE
     }
 
     private fun setupUi() {
         notesAdapter = NotesListAdapter { itemChecked -> viewModel.checkNote(itemChecked) }
 
-        notes_list.apply {
+        binding.notesList.apply {
             adapter = notesAdapter
             addItemDecoration(DividerItemDecoration(
-                notes_list.context,
-                (notes_list.layoutManager as LinearLayoutManager).orientation))
+                binding.notesList.context,
+                (binding.notesList.layoutManager as LinearLayoutManager).orientation))
         }
     }
 
     override fun handleError(fallback: () -> Unit, error: ErrorModel) {
         super.handleError(fallback, error)
 
-        add_remove_button.visibility = View.GONE
+        binding.addRemoveButton.visibility = View.GONE
     }
 }
