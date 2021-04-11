@@ -31,8 +31,6 @@ class AddNoteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        context?.showKeyboard()
-
         binding.details.run {
             this.requestFocus()
             this.setOnEditorActionListener { note, actionId, _ ->
@@ -41,8 +39,6 @@ class AddNoteFragment : BaseFragment() {
                         if (note.text.isNotEmpty()) {
                             viewModel.navigateToNotesList(
                                 NoteModel("", note.text.toString(), false))
-
-                            context.hideKeyboard(note)
                         }
                         true
                     }
@@ -52,8 +48,14 @@ class AddNoteFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        context?.showKeyboard()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        context?.hideKeyboard(binding.details)
         _binding = null
     }
 }
