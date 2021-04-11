@@ -1,6 +1,7 @@
 package com.jhbb.notes.common.component
 
 import android.content.Context
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.CheckBox
@@ -23,7 +24,6 @@ class CompletableItem(context: Context, attrs: AttributeSet? = null) :
     interface OnCheckListener { fun checked(index: Int?) }
 
     init {
-
         attrs?.let {
             context.theme.obtainStyledAttributes(
                 it, R.styleable.CompletableItem, 0, 0).apply {
@@ -46,7 +46,15 @@ class CompletableItem(context: Context, attrs: AttributeSet? = null) :
 
     fun setStatus(status: Boolean) {
         binding.completed.isChecked = status
-        binding.description.setTextColor(if (status) secondaryColor else primaryColor)
+        binding.description.run {
+            paintFlags = if (status) {
+                setTextColor(secondaryColor)
+                Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                setTextColor(primaryColor)
+                0
+            }
+        }
         invalidate()
         requestLayout()
     }
@@ -63,9 +71,15 @@ class CompletableItem(context: Context, attrs: AttributeSet? = null) :
         val animDuration = 400L
 
         if (isChecked) {
-            binding.description.tintTextAnimation(primaryColor, secondaryColor, animDuration)
+            binding.description.run {
+                tintTextAnimation(primaryColor, secondaryColor, animDuration)
+                paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            }
         } else {
-            binding.description.tintTextAnimation(secondaryColor, primaryColor, animDuration)
+            binding.description.run {
+                tintTextAnimation(secondaryColor, primaryColor, animDuration)
+                paintFlags = 0
+            }
         }
     }
 }
