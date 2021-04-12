@@ -7,7 +7,7 @@ import com.jhbb.notes.databinding.ActivityBaseBinding
 
 abstract class BaseActivity : AppCompatActivity() {
 
-     lateinit var binding: ActivityBaseBinding
+    lateinit var binding: ActivityBaseBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
