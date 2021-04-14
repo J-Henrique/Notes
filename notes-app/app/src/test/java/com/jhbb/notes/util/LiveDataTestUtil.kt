@@ -1,4 +1,4 @@
-package com.jhbb.testcommon
+package com.jhbb.notes.util
 
 /*
  * Copyright (C) 2017 The Android Open Source Project

@@ -1,7 +1,7 @@
 package com.jhbb.data.repository
 
 import com.jhbb.data.api.NotesApi
-import com.jhbb.data.mapper.DataMapper
+import com.jhbb.data.mapper.map
 import com.jhbb.domain.common.ErrorMapper
 import com.jhbb.domain.common.Failure
 import com.jhbb.domain.common.Result
@@ -16,7 +16,7 @@ class NotesRepositoryImpl(
 
     override suspend fun getNotes(): Result<List<NoteModel>> {
         return try {
-            val fetchedNotes = notesApi.getNotes().map { DataMapper.map(it) }
+            val fetchedNotes = notesApi.getNotes().map { it.map() }
             Success(fetchedNotes)
         } catch (e: Exception) {
             Failure(errorMapper.getType(e))
@@ -25,8 +25,8 @@ class NotesRepositoryImpl(
 
     override suspend fun checkNote(checkedNote: NoteModel): Result<NoteModel> {
         return try {
-            val response = notesApi.updateNote(checkedNote.id, DataMapper.map(checkedNote).data)
-            Success(DataMapper.map(response))
+            val response = notesApi.updateNote(checkedNote.id, checkedNote.map().data)
+            Success(response.map())
         } catch (e: Exception) {
             Failure(errorMapper.getType(e))
         }
@@ -38,8 +38,8 @@ class NotesRepositoryImpl(
 
     override suspend fun addNote(newNote: NoteModel): Result<NoteModel> {
         return try {
-            val response = notesApi.addNote(DataMapper.map(newNote).data)
-            Success(DataMapper.map(response))
+            val response = notesApi.addNote(newNote.map().data)
+            Success(response.map())
         } catch (e: Exception) {
             Failure(errorMapper.getType(e))
         }

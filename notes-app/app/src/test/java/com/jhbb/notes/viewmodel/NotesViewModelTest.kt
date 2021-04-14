@@ -12,7 +12,7 @@ import com.jhbb.domain.usecase.FetchNotesUseCase
 import com.jhbb.notes.presentation.navigation.AddNote
 import com.jhbb.notes.presentation.navigation.NotesList
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
-import com.jhbb.testcommon.observeForTesting
+import com.jhbb.notes.util.observeForTesting
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
