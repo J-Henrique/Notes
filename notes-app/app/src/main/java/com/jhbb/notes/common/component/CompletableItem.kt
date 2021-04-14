@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -19,7 +20,7 @@ class CompletableItem(context: Context, attrs: AttributeSet? = null) :
     private var index: Int? = null
     private var callbackAction: OnCheckListener? = null
     private var binding =
-        CompletableItemBinding.inflate(LayoutInflater.from(context), this, true)
+        CompletableItemBinding.inflate(LayoutInflater.from(context), this)
 
     interface OnCheckListener { fun checked(index: Int?) }
 
@@ -32,9 +33,16 @@ class CompletableItem(context: Context, attrs: AttributeSet? = null) :
             }
         }
 
-        binding.completed.setOnClickListener {
-            tintText((it as CheckBox).isChecked)
-            callbackAction?.checked(index)
+        binding.apply {
+            with(root) {
+                background = ContextCompat.getDrawable(context, R.drawable.round_corner_shape)
+                layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 80)
+            }
+
+            completed.setOnClickListener {
+                tintText((it as CheckBox).isChecked)
+                callbackAction?.checked(index)
+            }
         }
     }
 
