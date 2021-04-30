@@ -9,8 +9,6 @@ import com.jhbb.domain.model.NoteModel
 import com.jhbb.domain.usecase.AddNoteUseCase
 import com.jhbb.domain.usecase.CheckNoteUseCase
 import com.jhbb.domain.usecase.FetchNotesUseCase
-import com.jhbb.notes.presentation.navigation.AddNote
-import com.jhbb.notes.presentation.navigation.NotesList
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
 import com.jhbb.notes.util.observeForTesting
 import io.mockk.*
@@ -120,21 +118,5 @@ class NotesViewModelTest {
         viewModel.addNote(mockk())
 
         coVerify { addNoteUseCase(any()) }
-    }
-
-    @Test
-    fun `Should dispatch an 'navigate to add notes' event`() {
-        viewModel.navigateToAddNote()
-
-        assertTrue(viewModel.navigate.value?.peekContent() is AddNote)
-    }
-
-    @Test
-    fun `Should dispatch an 'navigate to notes' list event`() {
-        coEvery { addNoteUseCase(any()) } coAnswers { mockk() }
-
-        viewModel.addNote(mockk())
-
-        assertTrue(viewModel.navigate.value?.peekContent() is NotesList)
     }
 }

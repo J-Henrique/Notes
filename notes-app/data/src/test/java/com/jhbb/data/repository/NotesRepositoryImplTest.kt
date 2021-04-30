@@ -1,7 +1,7 @@
 package com.jhbb.data.repository
 
 import com.jhbb.data.api.NotesApi
-import com.jhbb.data.mapper.DataMapper
+import com.jhbb.data.mapper.map
 import com.jhbb.data.model.NoteResponse
 import com.jhbb.domain.common.ErrorMapper
 import com.jhbb.domain.common.Failure
@@ -85,7 +85,7 @@ class NotesRepositoryImplTest {
     @Test
     fun `Should call the API responsible for adding notes`() = mainCoroutineRule.runBlockingTest {
         val noteToAdd = NoteModel("1", "note to add", true)
-        val parsedNote = DataMapper.map(noteToAdd)
+        val parsedNote: NoteResponse = noteToAdd.map()
         val slot = slot<NoteResponse.NoteData>()
 
         coEvery { notesApi.addNote(any()) } coAnswers { parsedNote }
