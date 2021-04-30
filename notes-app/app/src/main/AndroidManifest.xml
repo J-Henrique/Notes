@@ -16,9 +16,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".common.view.BaseActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name="com.jhbb.notes.presentation.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

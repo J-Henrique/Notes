@@ -9,9 +9,6 @@ import com.jhbb.domain.usecase.AddNoteUseCase
 import com.jhbb.domain.usecase.CheckNoteUseCase
 import com.jhbb.domain.usecase.FetchNotesUseCase
 import com.jhbb.notes.common.extension.launch
-import com.jhbb.notes.presentation.navigation.AddNote
-import com.jhbb.notes.presentation.navigation.Navigation
-import com.jhbb.notes.presentation.navigation.NotesList
 import kotlinx.coroutines.CoroutineDispatcher
 
 class NotesViewModel(
@@ -23,9 +20,6 @@ class NotesViewModel(
 
     private val _notes = MutableLiveData<Result<List<NoteModel>>>()
     val notes: LiveData<Result<List<NoteModel>>> = _notes
-
-    private val _navigate = MutableLiveData<Event<Navigation>>()
-    val navigate: LiveData<Event<Navigation>> = _navigate
 
     fun refreshNotes() {
         _notes.value = Loading
@@ -43,14 +37,9 @@ class NotesViewModel(
         }
     }
 
-    fun navigateToAddNote() {
-        _navigate.value = Event(AddNote)
-    }
-
-    fun navigateToNotesList(noteToAdd: NoteModel) {
+    fun addNote(noteToAdd: NoteModel) {
         launch(defaultDispatcher) {
             addNoteUseCase(noteToAdd)
         }
-        _navigate.value = Event(NotesList)
     }
 }

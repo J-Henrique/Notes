@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.navigation.findNavController
 import com.jhbb.domain.model.NoteModel
 import com.jhbb.notes.common.extension.hideKeyboard
 import com.jhbb.notes.common.extension.showKeyboard
@@ -37,8 +38,8 @@ class AddNoteFragment : BaseFragment() {
                 return@setOnEditorActionListener when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
                         if (note.text.isNotEmpty()) {
-                            viewModel.navigateToNotesList(
-                                NoteModel("", note.text.toString(), false))
+                            viewModel.addNote(NoteModel("", note.text.toString(), false))
+                            findNavController().popBackStack()
                         }
                         true
                     }

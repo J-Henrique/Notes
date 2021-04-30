@@ -1,29 +1,29 @@
 package com.jhbb.notes.presentation.activity
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
-import com.jhbb.notes.common.view.BaseActivity
-import com.jhbb.notes.presentation.fragment.AddNoteFragment
-import com.jhbb.notes.presentation.fragment.NotesListFragment
-import com.jhbb.notes.presentation.navigation.AddNote
-import com.jhbb.notes.presentation.navigation.NotesList
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.jhbb.notes.databinding.ActivityMainBinding
 import com.jhbb.notes.presentation.viewmodel.NotesViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<NotesViewModel>()
-
-    override fun fragment() = NotesListFragment()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        viewModel.navigate.observe(this, Observer {
-            when (it.getContentIfNotHandled()) {
-                AddNote -> replaceFragment(AddNoteFragment())
-                NotesList -> popFragment()
-            }
-        })
+        val host = supportFragmentManager
+            .findFragmentById(binding.fragmentContainer.id) as NavHostFragment
+        val navigationController = host.navController
+        val appBarConfiguration = AppBarConfiguration(navigationController.graph)
+
+        binding.toolbar.setupWithNavController(navigationController, appBarConfiguration)
     }
 }

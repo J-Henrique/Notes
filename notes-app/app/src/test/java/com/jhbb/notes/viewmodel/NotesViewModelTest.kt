@@ -117,7 +117,7 @@ class NotesViewModelTest {
     fun `Should call the use case responsible for adding notes`() {
         coEvery { addNoteUseCase(any()) } coAnswers { mockk() }
 
-        viewModel.navigateToNotesList(mockk())
+        viewModel.addNote(mockk())
 
         coVerify { addNoteUseCase(any()) }
     }
@@ -133,7 +133,7 @@ class NotesViewModelTest {
     fun `Should dispatch an 'navigate to notes' list event`() {
         coEvery { addNoteUseCase(any()) } coAnswers { mockk() }
 
-        viewModel.navigateToNotesList(mockk())
+        viewModel.addNote(mockk())
 
         assertTrue(viewModel.navigate.value?.peekContent() is NotesList)
     }

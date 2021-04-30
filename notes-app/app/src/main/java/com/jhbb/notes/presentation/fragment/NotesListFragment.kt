@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jhbb.domain.common.Failure
@@ -12,6 +13,8 @@ import com.jhbb.domain.common.Loading
 import com.jhbb.domain.common.Success
 import com.jhbb.domain.model.ErrorModel
 import com.jhbb.domain.model.NoteModel
+import com.jhbb.notes.common.extension.hide
+import com.jhbb.notes.common.extension.show
 import com.jhbb.notes.common.view.BaseFragment
 import com.jhbb.notes.databinding.FragmentNotesListBinding
 import com.jhbb.notes.presentation.adapter.NotesListAdapter
@@ -51,7 +54,7 @@ class NotesListFragment : BaseFragment() {
 
     private fun setupButtonEvent() {
         binding.addRemoveButton.setOnClickListener {
-            viewModel.navigateToAddNote()
+            findNavController().navigate(NotesListFragmentDirections.actionNotesListFragmentToAddNoteFragment())
         }
     }
 
@@ -59,7 +62,7 @@ class NotesListFragment : BaseFragment() {
         with(viewModel) {
             this.notes.observe(viewLifecycleOwner, Observer {
                 when (it) {
-                    is Loading -> showLoadingBar()
+                    is Loading -> binding.loadingBar.show()
                     is Success -> renderNotesList(it.data)
                     is Failure -> handleError(::refreshAdapter, it.error)
                 }
@@ -72,9 +75,9 @@ class NotesListFragment : BaseFragment() {
     }
 
     private fun renderNotesList(notes: List<NoteModel>) {
-        hideLoadingBar()
+        binding.loadingBar.hide()
         notesAdapter.refreshList(notes)
-        binding.addRemoveButton.visibility = View.VISIBLE
+        binding.addRemoveButton.show()
     }
 
     private fun setupUi() {
@@ -91,6 +94,6 @@ class NotesListFragment : BaseFragment() {
     override fun handleError(fallback: () -> Unit, error: ErrorModel) {
         super.handleError(fallback, error)
 
-        binding.addRemoveButton.visibility = View.GONE
+        binding.addRemoveButton.hide()
     }
 }
